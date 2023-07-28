@@ -1,0 +1,171 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id "androidx.navigation.safeargs"
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'kotlin-parcelize'
+}
+
+android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module")
+    }
+    compileSdkVersion 32
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.app.capturenotes"
+        minSdkVersion 23
+        targetSdkVersion 32
+        versionCode 28
+        versionName "1.0.2"
+        testInstrumentationRunner "com.app.capturenotes.framework.DaggerTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    lintOptions {
+        checkReleaseBuilds false // Add this
+        abortOnError false
+    }
+    compileOptions {
+        // Support for Java 8 features
+        // coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
+    sourceSets {
+        test.resources.srcDirs += 'src/test/res'
+    }
+
+}
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-firestore:'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
+    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'androidx.media2:media2-exoplayer:1.2.1'
+    implementation "com.google.android.play:core:1.10.3"
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
+
+    //Espresso
+    def espressoVersion = "3.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion"){
+        exclude module: "protobuf-lite"
+    }
+    implementation("androidx.test.espresso.idling:idling-concurrent:$espressoVersion")
+
+    // androidx.test
+    def androidXTestVersion = "1.3.0"
+    androidTestImplementation("androidx.test:core:$androidXTestVersion")
+    androidTestImplementation("androidx.test:runner:$androidXTestVersion")
+    androidTestImplementation("androidx.test:rules:$androidXTestVersion")
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.3.61"
+
+    // androidx.fragment
+    def fragment_version = "1.3.0-alpha06"
+    debugImplementation ("androidx.fragment:fragment-testing:$fragment_version"){
+        exclude group: 'androidx.test', module: 'core'
+    }
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.11.0"
+
+    // Nav Components
+    def nav_version = "2.5.2"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    // Card View
+    implementation("androidx.cardview:cardview:1.0.0")
+
+    // Room Dependecies
+    implementation "androidx.room:room-ktx:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.2"
+    androidTestImplementation "androidx.room:room-testing:2.4.2"
+
+    //  Lifecycle Dependencies
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
+    /// Dagger2
+    implementation "com.google.dagger:dagger:2.42"
+    kapt "com.google.dagger:dagger-compiler:2.42"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:2.42"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation platform('com.google.firebase:firebase-bom:30.5.0')
+
+    // Material Dialog
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    implementation 'com.afollestad.material-dialogs:input:3.3.0'
+
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+
+    //Coroutines
+    implementation  "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
+
+    // Junit5
+    def mockk_version = "1.9.2"
+    def junit_jupiter_version = "5.6.0"
+    def junit_4_version = "4.12"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    testImplementation"org.junit.jupiter:junit-jupiter-params:$junit_jupiter_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation"junit:junit:$junit_4_version"
+    testRuntimeOnly  "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+
+    implementation 'com.yydcdut:markdown-processor:0.1.3'
+}

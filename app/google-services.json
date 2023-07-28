@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "804494577203",
+    "project_id": "floodalert-b9c24",
+    "storage_bucket": "floodalert-b9c24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804494577203:android:f3fc1d06a7c436cb4b1d46",
+        "android_client_info": {
+          "package_name": "com.app.capturenotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "804494577203-q2k8srimldf98ag3m31r18dqs67u36ft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnk-WnJUxAGWJXkSet36ThMsFKCVR1ETY"
+        },
+        {
+          "current_key": "AIzaSyDkOUDMhBjK7mbZcVvIe69I8ecw5-wf4cU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804494577203-q2k8srimldf98ag3m31r18dqs67u36ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804494577203:android:2f1b95afcec1febf4b1d46",
+        "android_client_info": {
+          "package_name": "com.app.emotionbasedmusicplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "804494577203-q2k8srimldf98ag3m31r18dqs67u36ft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnk-WnJUxAGWJXkSet36ThMsFKCVR1ETY"
+        },
+        {
+          "current_key": "AIzaSyDkOUDMhBjK7mbZcVvIe69I8ecw5-wf4cU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804494577203-q2k8srimldf98ag3m31r18dqs67u36ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804494577203:android:7dbb00d45284c28f4b1d46",
+        "android_client_info": {
+          "package_name": "com.example.floodalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "804494577203-q2k8srimldf98ag3m31r18dqs67u36ft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnk-WnJUxAGWJXkSet36ThMsFKCVR1ETY"
+        },
+        {
+          "current_key": "AIzaSyDkOUDMhBjK7mbZcVvIe69I8ecw5-wf4cU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804494577203-q2k8srimldf98ag3m31r18dqs67u36ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
