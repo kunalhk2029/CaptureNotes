@@ -118,7 +118,8 @@ constructor(
     }
 
     override suspend fun getNumNotes(): Int {
-        return noteDao.getNumNotes()
+        val nummNotes=noteDao.getNumNotes()
+        return  nummNotes
     }
 
     override suspend fun returnOrderedQuery(

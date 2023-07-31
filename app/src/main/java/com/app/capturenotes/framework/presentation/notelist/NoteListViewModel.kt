@@ -82,7 +82,6 @@ constructor(
                 setNotePendingDelete(null)
             }
         }
-
     }
 
     override fun setStateEvent(stateEvent: StateEvent) {
@@ -132,6 +131,7 @@ constructor(
                     query = getSearchQuery(),
                     filterAndOrder = getOrder() + getFilter(),
                     page = getPage(),
+                    doNetworkSync = stateEvent.doNetworkSync,
                     stateEvent = stateEvent
                 )
             }
@@ -389,10 +389,12 @@ constructor(
         loadFirstPage()
     }
 
-    fun loadFirstPage() {
+    fun loadFirstPage(doNetworkSync: Boolean=false) {
         setQueryExhausted(false)
         resetPage()
-        setStateEvent(NoteListStateEvent.SearchNotesEvent())
+        setStateEvent(NoteListStateEvent.SearchNotesEvent(
+            doNetworkSync = doNetworkSync
+        ))
         printLogD("NoteListViewModel",
             "loadFirstPage: ${getCurrentViewStateOrNew().searchQuery}")
     }

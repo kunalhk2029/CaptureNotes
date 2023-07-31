@@ -5,19 +5,28 @@ import com.app.capturenotes.business.data.cache.abstraction.NoteCacheDataSource
 import com.app.capturenotes.business.data.util.safeCacheCall
 import com.app.capturenotes.business.domain.model.Note
 import com.app.capturenotes.business.domain.state.*
+import com.app.capturenotes.business.interactors.splash.SyncDeletedNotes
+import com.app.capturenotes.business.interactors.splash.SyncNotes
 import com.app.capturenotes.framework.presentation.notelist.state.NoteListViewState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchNotes(
     private val noteCacheDataSource: NoteCacheDataSource,
+    private val syncNotes: SyncNotes,
+    private val syncDeletedNotes: SyncDeletedNotes,
 ) {
 
     fun searchNotes(
         query: String,
         filterAndOrder: String,
         page: Int,
+        doNetworkSync: Boolean,
         stateEvent: StateEvent,
     ): Flow<DataState<NoteListViewState>?> = flow {
 
@@ -25,7 +34,11 @@ class SearchNotes(
         if (page <= 0) {
             updatedPage = 1
         }
-        val cacheResult = safeCacheCall(Dispatchers.IO) {
+        if (doNetworkSync) {
+            executeDataSync()
+        }
+
+        val cacheResult = safeCacheCall(IO) {
             noteCacheDataSource.searchNotes(
                 query = query,
                 filterAndOrder = filterAndOrder,
@@ -61,6 +74,29 @@ class SearchNotes(
         }.getResult()
 
         emit(response)
+    }
+
+    suspend fun executeDataSync(): Boolean {
+        val job = Job()
+        withContext(IO) {
+            val syncJob = launch {
+                val deletesJob = launch {
+                    syncDeletedNotes.syncDeletedNotes()
+                }
+                deletesJob.join()
+
+                launch {
+                    syncNotes.syncNotes()
+                }
+            }
+            syncJob.invokeOnCompletion {
+                job.complete()
+            }
+        }
+        while (job.isCompleted == false) {
+        }
+
+        return true
     }
 
     companion object {

@@ -83,7 +83,8 @@ sealed class NoteListStateEvent: StateEvent {
     }
 
     class SearchNotesEvent(
-        val clearLayoutManagerState: Boolean = true
+        val clearLayoutManagerState: Boolean = true,
+        val doNetworkSync:Boolean= false
     ): NoteListStateEvent(){
 
         override fun errorInfo(): String {

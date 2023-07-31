@@ -69,6 +69,7 @@ constructor(
     lateinit var androidTestUtils: AndroidTestUtils
 
     var binding: FragmentNoteListBinding? = null
+    var doNetworkSync =false
 
     val viewModel: NoteListViewModel by viewModels {
         viewModelFactory
@@ -85,6 +86,8 @@ constructor(
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
+                doNetworkSync=true
+                startNewSearch()
                 Toast.makeText(
                     requireContext(),
                     "Logged in with " + GoogleSignIn.getLastSignedInAccount(
@@ -93,6 +96,13 @@ constructor(
                     Toast.LENGTH_SHORT
                 )
                     .show()
+
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to login try again" ,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -511,9 +521,9 @@ constructor(
     }
 
     private fun startNewSearch() {
-        printLogD("DCM", "start new search")
         viewModel.clearList()
-        viewModel.loadFirstPage()
+        viewModel.loadFirstPage(doNetworkSync)
+        doNetworkSync=false
     }
 
     private fun setupSwipeRefresh() {
@@ -550,7 +560,7 @@ constructor(
         if (GoogleSignIn.getLastSignedInAccount(requireContext()) != null) {
             MaterialDialog(requireContext()).show {
                 title(null, "Sign-Out")
-                message(null, "Confirm you want to Sign-Out of your Drive Storage Account ?")
+                message(null, "Confirm you want to Sign-Out ?")
                 positiveButton(null, "OK") {
                     gclient.signOut().addOnCompleteListener {
                         if (it.isSuccessful) {

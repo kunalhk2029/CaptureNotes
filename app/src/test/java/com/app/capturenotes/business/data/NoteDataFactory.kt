@@ -29,10 +29,3 @@ class NoteDataFactory(
         return testClassLoader.getResource(fileName).readText()
     }
 }
-
-
-
-
-
-
-

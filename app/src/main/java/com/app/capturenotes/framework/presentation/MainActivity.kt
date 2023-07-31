@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity(),
             }
 
             is AreYouSureDialog -> {
-
                 response.message?.let {
                     dialogInView = areYouSureDialog(
                         message = it,

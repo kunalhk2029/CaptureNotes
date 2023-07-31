@@ -169,11 +169,13 @@ object AppModule {
         noteCacheDataSource: NoteCacheDataSource,
         noteNetworkDataSource: NoteNetworkDataSource,
         noteFactory: NoteFactory,
+        syncNotes: SyncNotes,
+        syncDeletedNotes: SyncDeletedNotes
     ): NoteListInteractors {
         return NoteListInteractors(
             InsertNewNote(noteCacheDataSource, noteNetworkDataSource, noteFactory),
             DeleteNote(noteCacheDataSource, noteNetworkDataSource),
-            SearchNotes(noteCacheDataSource),
+            SearchNotes(noteCacheDataSource,syncNotes, syncDeletedNotes),
             GetNumNotes(noteCacheDataSource),
             RestoreDeletedNote(noteCacheDataSource, noteNetworkDataSource),
             DeleteMultipleNotes(noteCacheDataSource, noteNetworkDataSource),

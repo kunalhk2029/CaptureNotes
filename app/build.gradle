@@ -27,7 +27,7 @@ android {
         applicationId "com.app.capturenotes"
         minSdkVersion 23
         targetSdkVersion 32
-        versionCode 28
+        versionCode 29
         versionName "1.0.2"
         testInstrumentationRunner "com.app.capturenotes.framework.DaggerTestRunner"
     }
@@ -39,7 +39,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     buildFeatures {
         viewBinding true
     }
