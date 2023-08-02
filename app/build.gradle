@@ -27,7 +27,7 @@ android {
         applicationId "com.app.capturenotes"
         minSdkVersion 23
         targetSdkVersion 32
-        versionCode 29
+        versionCode 30
         versionName "1.0.2"
         testInstrumentationRunner "com.app.capturenotes.framework.DaggerTestRunner"
     }

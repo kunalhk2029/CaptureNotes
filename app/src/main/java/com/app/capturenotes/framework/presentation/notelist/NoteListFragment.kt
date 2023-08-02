@@ -3,6 +3,7 @@ package com.app.capturenotes.framework.presentation.notelist
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -69,7 +70,7 @@ constructor(
     lateinit var androidTestUtils: AndroidTestUtils
 
     var binding: FragmentNoteListBinding? = null
-    var doNetworkSync =false
+    var doNetworkSync = false
 
     val viewModel: NoteListViewModel by viewModels {
         viewModelFactory
@@ -86,7 +87,7 @@ constructor(
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                doNetworkSync=true
+                doNetworkSync = true
                 startNewSearch()
                 Toast.makeText(
                     requireContext(),
@@ -97,10 +98,10 @@ constructor(
                 )
                     .show()
 
-            }else{
+            } else {
                 Toast.makeText(
                     requireContext(),
-                    "Failed to login try again" ,
+                    "Failed to login try again",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -523,7 +524,7 @@ constructor(
     private fun startNewSearch() {
         viewModel.clearList()
         viewModel.loadFirstPage(doNetworkSync)
-        doNetworkSync=false
+        doNetworkSync = false
     }
 
     private fun setupSwipeRefresh() {
@@ -557,27 +558,43 @@ constructor(
 
         val gclient = GoogleSignIn.getClient(requireContext(), gso)
 
-        if (GoogleSignIn.getLastSignedInAccount(requireContext()) != null) {
+        if (viewModel.getUserName() != null) {
             MaterialDialog(requireContext()).show {
                 title(null, "Sign-Out")
-                message(null, "Confirm you want to Sign-Out ?")
+                message(null, "Your notes will stop syncing online")
                 positiveButton(null, "OK") {
-                    gclient.signOut().addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(requireContext(), "Logged Out", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
+                    viewModel.setUserName(null)
+//                    gclient.signOut().addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            Toast.makeText(requireContext(), "Logged Out", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    }
                 }
                 negativeButton(null, "Cancel")
             }
         } else {
             MaterialDialog(requireContext()).show {
-                title(null, "Sign-In")
+                title(null, "Sync Notes")
                 message(null,
-                    "Sign-in with your google account to sync your notes across multiple devices")
+                    "Enter your username to sync notes on multiple devices")
                 positiveButton(null, "OK") {
-                    intentSenderLauncher.launch(gclient.signInIntent)
+                    uiController.displayInputCaptureDialog(
+                        title = "Enter username",
+                        object : DialogInputCaptureCallback {
+                            override fun onTextCaptured(text: String) {
+                                viewModel.setUserName(text)
+                                doNetworkSync = true
+                                startNewSearch()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Logged in with $text",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    )
+//                    intentSenderLauncher.launch(gclient.signInIntent)
                 }
                 negativeButton(null, "Cancel")
             }

@@ -7,5 +7,6 @@ class PreferenceKeys {
         // Shared Preference Keys
        const val NOTE_FILTER: String = "${NOTE_PREFERENCES}.NOTE_FILTER"
        const val NOTE_ORDER: String = "${NOTE_PREFERENCES}.NOTE_ORDER"
+       const val USER_NAME: String = "${NOTE_PREFERENCES}.USER_NAME"
     }
 }

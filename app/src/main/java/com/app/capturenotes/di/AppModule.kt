@@ -1,6 +1,5 @@
 package com.app.capturenotes.di
 
-import android.content.Context
 import android.content.SharedPreferences
 import com.app.capturenotes.business.data.cache.abstraction.NoteCacheDataSource
 import com.app.capturenotes.business.data.cache.implementation.NoteCacheDataSourceImpl
@@ -22,7 +21,6 @@ import com.app.capturenotes.framework.datasource.cache.mappers.CacheMapper
 import com.app.capturenotes.framework.datasource.network.abstraction.NoteFirestoreService
 import com.app.capturenotes.framework.datasource.network.implementation.NoteFirestoreServiceImpl
 import com.app.capturenotes.framework.datasource.network.mappers.NetworkMapper
-import com.app.capturenotes.framework.presentation.BaseApplication
 import com.app.capturenotes.framework.presentation.splash.NoteNetworkSyncManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -127,14 +125,13 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFirestoreService(
-        application: BaseApplication,
         firebaseFirestore: FirebaseFirestore,
         networkMapper: NetworkMapper,
+        sharedPreferences: SharedPreferences,
     ): NoteFirestoreService {
         return NoteFirestoreServiceImpl(
-            application,
             firebaseFirestore,
-            networkMapper
+            networkMapper, sharedPreferences
         )
     }
 
@@ -170,12 +167,12 @@ object AppModule {
         noteNetworkDataSource: NoteNetworkDataSource,
         noteFactory: NoteFactory,
         syncNotes: SyncNotes,
-        syncDeletedNotes: SyncDeletedNotes
+        syncDeletedNotes: SyncDeletedNotes,
     ): NoteListInteractors {
         return NoteListInteractors(
             InsertNewNote(noteCacheDataSource, noteNetworkDataSource, noteFactory),
             DeleteNote(noteCacheDataSource, noteNetworkDataSource),
-            SearchNotes(noteCacheDataSource,syncNotes, syncDeletedNotes),
+            SearchNotes(noteCacheDataSource, syncNotes, syncDeletedNotes),
             GetNumNotes(noteCacheDataSource),
             RestoreDeletedNote(noteCacheDataSource, noteNetworkDataSource),
             DeleteMultipleNotes(noteCacheDataSource, noteNetworkDataSource),

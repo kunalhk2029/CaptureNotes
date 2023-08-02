@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity(),
         title: String,
         callback: DialogInputCaptureCallback,
     ) {
-        println("bgfbf = " + title)
         dialogInView = MaterialDialog(this).show {
             title(text = title)
             input(
@@ -136,6 +135,7 @@ class MainActivity : AppCompatActivity(),
             }
         }
     }
+
 
     private fun displaySnackbar(
         message: String,

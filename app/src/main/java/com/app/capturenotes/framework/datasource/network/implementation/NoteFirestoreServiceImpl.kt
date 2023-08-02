@@ -1,9 +1,11 @@
 package com.app.capturenotes.framework.datasource.network.implementation
 
+import android.content.SharedPreferences
 import com.app.capturenotes.business.domain.model.Note
 import com.app.capturenotes.framework.datasource.network.abstraction.NoteFirestoreService
 import com.app.capturenotes.framework.datasource.network.mappers.NetworkMapper
 import com.app.capturenotes.framework.datasource.network.model.NoteNetworkEntity
+import com.app.capturenotes.framework.datasource.preferences.PreferenceKeys.Companion.USER_NAME
 import com.app.capturenotes.framework.presentation.BaseApplication
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.Timestamp
@@ -17,14 +19,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Singleton
 class NoteFirestoreServiceImpl
 @Inject
 constructor(
-    private val application: BaseApplication,
     private val firestore: FirebaseFirestore,
     private val networkMapper: NetworkMapper,
+    private val sharedPreferences: SharedPreferences
 ) : NoteFirestoreService {
 
     override suspend fun insertOrUpdateNote(note: Note) {
@@ -218,7 +219,7 @@ constructor(
     }
 
     fun getLoggedInUser(): String? {
-        return GoogleSignIn.getLastSignedInAccount(application.baseContext)?.email
+       return sharedPreferences.getString(USER_NAME,null)
     }
 
     companion object {

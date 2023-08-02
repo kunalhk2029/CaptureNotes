@@ -12,6 +12,7 @@ import com.app.capturenotes.framework.datasource.cache.database.NOTE_FILTER_DATE
 import com.app.capturenotes.framework.datasource.cache.database.NOTE_ORDER_DESC
 import com.app.capturenotes.framework.datasource.preferences.PreferenceKeys.Companion.NOTE_FILTER
 import com.app.capturenotes.framework.datasource.preferences.PreferenceKeys.Companion.NOTE_ORDER
+import com.app.capturenotes.framework.datasource.preferences.PreferenceKeys.Companion.USER_NAME
 import com.app.capturenotes.framework.presentation.common.BaseViewModel
 import com.app.capturenotes.framework.presentation.notelist.state.NoteListInteractionManager
 import com.app.capturenotes.framework.presentation.notelist.state.NoteListStateEvent
@@ -36,7 +37,7 @@ constructor(
     private val noteInteractors: NoteListInteractors,
     private val noteFactory: NoteFactory,
     private val editor: SharedPreferences.Editor,
-    sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ): BaseViewModel<NoteListViewState>(){
 
     val noteListInteractionManager =
@@ -454,6 +455,14 @@ constructor(
             update.filter = filter
             setViewState(update)
         }
+    }
+    fun setUserName(username: String?){
+        editor.putString(USER_NAME,username)
+        editor.apply()
+    }
+
+    fun getUserName():String?{
+        return sharedPreferences.getString(USER_NAME,null)
     }
 
     fun setNoteOrder(order: String?){
